@@ -1,0 +1,6 @@
+@cinemaabyss_proxy_service_HostAddress = http://localhost:5044
+
+GET {{cinemaabyss_proxy_service_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

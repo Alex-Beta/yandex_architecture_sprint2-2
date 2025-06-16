@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: monolith
-        image:  ghcr.io/db-exp/cinemaabysstest/monolith:latest
+        image: ghcr.io/alex-beta/yandex_architecture_sprint2/monolith:sha-f0aa717
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

@@ -1,0 +1,44 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User", "Пользователь c мобильного устройства, смарт ТВ, ПК или ноутбука")
+System_Boundary(abyss, "Кинобездна"){
+    System_Boundary(bff, "BFF"){
+        Container(backend4smart, "Бэкенд для смарт ТВ", "Go")
+        Container(backend4mobile, "Бэкенд для Мобилок", "Go")
+        Container(backend4pc, "Бэкенд для PC", "Go")
+    }
+    Container(content_api, "api контента", "Go")
+    Container(user_api, "api с пользовательской информацией", "Go")
+    Container(meta_api, "api мета информации о фильмах", "Go")
+
+    ContainerDb(content_db, "База контента", "Postgres")
+    ContainerDb(meta_db, "Мета данные о фильмах (жанры, актёры, оценки)", "Postgres")
+    ContainerDb(user_db, "Бд пользовательских данных (платежи, пользователи, подписки, скидки)", "Postgres")
+    Container(s3, "s3", "")
+}
+
+Container(pay, "Платёжная система", "")
+
+Container_Ext(online_cinema, "Онлайн-кинотеатры", "")
+System_Ext(recommendation, "Внешняя рекомендательная система"){
+    Container(rabbitMQ, "rabbitMQ", "")
+}
+
+Rel(user, bff, "Использует")
+Rel(bff, content_api, "")
+Rel(content_api, content_db, "")
+Rel(user_api, pay, "")
+Rel(content_api, s3, "")
+Rel(content_api, online_cinema, "")
+Rel(meta_api, rabbitMQ, "")
+
+Rel(meta_api, meta_db, "")
+Rel(user_api, user_db, "")
+
+Rel(bff, meta_api, "")
+Rel(bff, user_api, "")
+
+@enduml
