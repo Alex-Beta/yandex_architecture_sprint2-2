@@ -6,6 +6,19 @@ on:
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        required: true
+        default: 'docker'
+        type: choice
+        options:
+          - local
+          - docker
+      test_folder:
+        description: 'Test folder to run (leave empty for all)'
+        required: false
+        type: string
 
 jobs:
   api-tests:
@@ -17,35 +30,15 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Docker Compose
-        run: docker compose --version
+        run: |
+          docker compose --version
 
       - name: Start services with Docker Compose
         run: |
           docker compose up -d
-
-      - name: Wait for services to be healthy
-        run: |
-          echo "Waiting for services to be healthy..."
-          
-          # Подождать events-service
-          for i in {1..30}; do
-            if curl -s http://localhost:8082/health; then
-              echo "events-service is ready"
-              break
-            fi
-            echo "Waiting for events-service..."
-            sleep 5
-          done
-          
-          # Подождать proxy-service
-          for i in {1..30}; do
-            if curl -s http://localhost:8000/health; then
-              echo "proxy-service is ready"
-              break
-            fi
-            echo "Waiting for proxy-service..."
-            sleep 5
-          done
+          # Wait for services to be ready
+          echo "Waiting for services to be ready..."
+          sleep 120
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -58,11 +51,20 @@ jobs:
         working-directory: tests/postman
         run: npm install
 
-      - name: Run API tests in Docker
+      - name: Run API tests
         working-directory: tests/postman
         run: |
+
+          docker compose up -d
+          # Wait for services to be ready
+          echo "Waiting for services to be ready..."
+          sleep 30
+          # Build the Docker image
           docker build -t cinemaabyss-api-tests .
+          
+          # Run the tests in Docker
           docker run --network=cinemaabyss-network -v "$(pwd)/reports:/app/reports" cinemaabyss-api-tests
+        
 
       - name: Stop services
         if: always()
