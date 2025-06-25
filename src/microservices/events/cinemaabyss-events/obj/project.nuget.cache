@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "ACQpoichjcs=",
+  "success": true,
+  "projectFilePath": "C:\\temp\\practicum\\sprint2\\yandex_architecture_sprint2\\src\\microservices\\events\\cinemaabyss-events\\cinemaabyss-events.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\alexs\\.nuget\\packages\\confluent.kafka\\2.10.0\\confluent.kafka.2.10.0.nupkg.sha512",
+    "C:\\Users\\alexs\\.nuget\\packages\\librdkafka.redist\\2.10.0\\librdkafka.redist.2.10.0.nupkg.sha512"
+  ],
+  "logs": []
+}
