@@ -53,6 +53,8 @@ app.MapPost("/api/events/movie", async (HttpContext context) =>
     }
 });
 
+app.MapGet("/health", () => Results.Json(new { status = true }));
+
 app.MapPost("/api/events/user", async (HttpContext context) =>
 {
     var result = new EventResponse();

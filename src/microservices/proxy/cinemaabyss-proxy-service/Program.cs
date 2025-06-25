@@ -62,4 +62,7 @@ app.Map("/api/{**catch-all}", async (HttpContext context) =>
     await response.Content.CopyToAsync(context.Response.Body);
 });
 
+app.MapGet("/health", () => Results.Json(new { status = true }));
+
+
 app.Run();
