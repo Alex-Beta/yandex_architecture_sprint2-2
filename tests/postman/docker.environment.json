@@ -16,13 +16,13 @@
     },
     {
       "key": "eventsServiceUrl",
-      "value": "http://events-service",
+      "value": "http://events-service:8080",
       "type": "default",
       "enabled": true
     },
     {
       "key": "proxyServiceUrl",
-      "value": "http://proxy-service",
+      "value": "http://proxy-service:8080",
       "type": "default",
       "enabled": true
     }
